@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="%lang%">
+	<head>
+		<script nonce="%sveltekit.nonce%"></script>
+		<!-- Section for adding AppDynamics -->
+		<!-- This has been moved to root layout.server.js to comply with CSP -->
+		<!-- <script charset="UTF-8" type="text/javascript">
+            window['adrum-start-time'] = new Date().getTime();
+
+            (function (config) {
+                config.appKey = 'AD-AAB-ACB-JKC';
+
+                config.adrumExtUrlHttp = 'http://cdn.appdynamics.com';
+
+                config.adrumExtUrlHttps = 'https://cdn.appdynamics.com';
+
+                config.beaconUrlHttp = 'http://pdx-col.eum-appdynamics.com';
+
+                config.beaconUrlHttps = 'https://pdx-col.eum-appdynamics.com';
+
+                config.resTiming = { bufSize: 200, clearResTimingOnBeaconSend: true };
+
+                config.maxUrlLength = 512;
+            })(window['adrum-config'] || (window['adrum-config'] = {}));
+        </script>
+        <script src="//cdn.appdynamics.com/adrum/adrum-22.6.0.3859.js"></script> -->
+		<!-- End of AppDynamics section -->
+		<meta charset="utf-8" />
+		<link rel="manifest" as="manifest" href="%sveltekit.assets%/manifest.json" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.ico" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link rel="stylesheet" href="%sveltekit.assets%/global.css" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		%sveltekit.head%
+	</head>
+	<body>
+		<div>%sveltekit.body%</div>
+	</body>
+</html>

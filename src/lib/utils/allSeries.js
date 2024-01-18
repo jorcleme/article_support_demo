@@ -1,0 +1,31 @@
+export const CISCO_CATALYST_1000_SERIES_SWITCHES = [
+    'C1000-8T-2G-L',
+    'C1000-8T-E-2G-L',
+    'C1000-8P-2G-L',
+    'C1000-8P-E-2G-L',
+    'C1000-8FP-2G-L',
+    'C1000-8FP-E-2G-L',
+    'C1000-16T-2G-L',
+    'C1000-16T-E-2G-L',
+    'C1000-16P-2G-L',
+    'C1000-16P-E-2G-L'
+];
+
+export const CISCO_CATALYST_1200_SERIES_SWITCHES = [
+    'C1200-8T-D',
+    'C1200-8T-E-2G',
+    'C1200-8P-E-2G',
+    'C1200-8FP-E-2G',
+    'C1200-16T-2G',
+    'C1200-16P-2G',
+    'C1200-24T-4G',
+    'C1200-24P-4G',
+    'C1200-24FP-4G',
+    'C1200-24T-4X',
+    'C1200-24P-4X',
+    'C1200-24FP-4X',
+    'C1200-48P-4G',
+    'C1200-48T-4G',
+    'C1200-48T-4X',
+    'C1200-48P-4X',
+];

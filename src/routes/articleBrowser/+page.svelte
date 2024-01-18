@@ -1,0 +1,247 @@
+<script>
+    import Article from '$lib/components/Article.svelte';
+    import GetSupportDetails from '$lib/components/GetSupportDetails.svelte';
+    import { UserPreferences } from '$lib/components/store.js';
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        function getTextFromPage() {
+            return document.body.textContent || '';
+        }
+
+        function handleClick() {
+            const textContent = getTextFromPage();
+            console.log(textContent);
+        }
+        handleClick();
+    });
+
+    console.log('User preferences are', $UserPreferences.experience);
+    const article = {
+        title: 'Assign a Port to a VLAN',
+        objective:
+            'This article provides instructions on how to assign a port to one or more VLANs in the Cisco Business 250 or 350 series switch.',
+        intro: '',
+        applicable_devices: [
+            {
+                device_name: 'CBS250',
+                software_version: '3.0.0.69',
+                data_sheet_link: null,
+                download_latest_link: 'https://software.cisco.com/download/home/286325765'
+            },
+            {
+                device_name: 'CBS350',
+                software_version: '3.0.0.69',
+                data_sheet_link:
+                    'https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html',
+                download_latest_link: 'https://software.cisco.com/download/home/286325769'
+            },
+            {
+                device_name: 'CBS350-2X',
+                software_version: '3.0.0.69',
+                data_sheet_link:
+                    'https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html',
+                download_latest_link: 'https://software.cisco.com/download/home/286325769'
+            },
+            {
+                device_name: 'CBS350-4X',
+                software_version: '3.0.0.69',
+                data_sheet_link:
+                    'https://www.cisco.com/c/en/us/products/collateral/switches/business-350-series-managed-switches/datasheet-c78-744156.html',
+                download_latest_link: 'https://software.cisco.com/download/home/286325769'
+            }
+        ],
+        steps: [
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 1,
+                text: 'Log in to the web-based utility of your switch then choose VLAN Management > Port VLAN Membership. ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step1.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Configure VLAN membership for switch ports using the web-based utility by selecting VLAN Management and Port VLAN Membership.'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 2,
+                text: 'Choose the interface type (Port or LAG) and click Go.  The following fields are displayed for all interfaces of the selected type:  Interface - Port or LAG ID. Mode - Interface VLAN mode that was selected in the Interface Settings page. Administrative VLANs - Drop-down list that displays all VLANs of which the interface might be a member. Operational VLANs - Drop-down list that displays all VLANs of which the interface is currently a member. LAG - If the interface selected is Port, it will display the LAG in which it is a member.  Note: In this example, Port is chosen.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step2.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Select the interface type and view the displayed fields for all interfaces of the selected type, including the interface ID, VLAN mode,'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 3,
+                text: 'Click the radio button of a port that you want to configure.  Note: In this example, GE3 is chosen.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step3.png',
+                alt: null,
+                note: 'Note: In this example, Port is chosen.',
+                MLSummary:
+                    'Select the port you want to configure by clicking on its radio button, in this case GE3.'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 4,
+                text: 'Click the Join VLAN button. ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step4.png',
+                alt: null,
+                note: 'Note: In this example, GE3 is chosen.',
+                MLSummary: 'Click the Join VLAN button to join a VLAN network.'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 5,
+                text: 'Make sure the correct Port or LAG is chosen in the Interface area.  Note: The Current VLAN Mode displays the port VLAN mode that was chosen in the Interface Settings page. In this example, the mode is set to Access. To learn more about how to configure this feature, click here for instructions.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step5.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Choose the correct Port or LAG in the Interface area and check the Current VLAN Mode to ensure the correct mode is set to'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 6,
+                text: 'Choose an access VLAN ID from the drop-down list. When the port is in Access mode, it will be a member of the Access VLAN. The default value is 1.  Note: In this example, VLAN 20 is chosen.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step6.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Select an Access VLAN ID from the drop-down list to make the port a member of the Access VLAN, with VLAN 20'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 7,
+                text: 'Choose a multicast TV VLAN from the drop-down list. When the port is in Access mode, it will be a member of the Multicast TV VLAN. The default value is None.  The following settings are for the inactive interface VLAN modes. These effects will be saved, but will not take effect until the interface VLAN mode is changed in the VLAN Interface Settings page. To learn more about how to configure this feature, click here for instructions.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step7.png',
+                alt: null,
+                note: 'Note: In this example, VLAN 20 is chosen.',
+                MLSummary:
+                    'Choose a Multicast TV VLAN from the drop-down list to make the port a member of that VLAN when in Access mode,'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 8,
+                text: 'Choose a native VLAN ID from the drop-down list. When the port is in Trunk mode, it will be a member of the Native VLAN. The default value is 1. ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step8.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Select a Native VLAN ID from the drop-down list to make the port a member of the Native VLAN when in Trunk mode'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 9,
+                text: 'When the port is in Trunk mode, it will be a member of the Tagged VLANs. Choose from the following options:  All VLANs - When the port is in Trunk mode, it will be a member of all VLANs. User Defined - When the port is in Trunk mode, it will be a member of the VLANs that are entered in this field.   Note: In this example, User Defined is chosen and VLANs 30-40 are used. All VLANs - When the port is in Trunk mode, it will be a member of all VLANs. User Defined - When the port is in Trunk mode, it will be a member of the VLANs that are entered in this field.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step9.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Configure the Trunk mode to be a member of either all VLANs or user-defined VLANs.'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 10,
+                text: 'Enter the VLAN ID in the Untagged VLANs field. When the port is in General mode, it will be an untagged member of this VLAN.  Note: In this example, VLAN 1 is used.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step10.png',
+                alt: null,
+                note: 'Note: In this example, User Defined is chosen and VLANs 30-40 are used.',
+                MLSummary:
+                    'Configure the untagged VLAN ID for the port in General mode by entering the VLAN ID in the Untagged VLANs field'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 11,
+                text: 'Enter the VLAN ID in the Tagged VLANs field. When the port is in General mode, it will be a tagged member of this VLAN.  Note: In this example, VLAN 30 is used.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step11.png',
+                alt: null,
+                note: 'Note: In this example, VLAN 1 is used.',
+                MLSummary:
+                    'Enter the VLAN ID in the Tagged VLANs field to make the port a tagged member of the specified VLAN when in General'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 12,
+                text: 'Enter the VLAN ID in the Forbidden VLANs field. When the port is in General mode, the interface is not allowed to join the VLAN even from GVRP registration. When a port is not a member of any other VLAN, enabling this option on the port makes the port part of internal VLAN 4095 which is a reserved VLAN ID (VID).  Note: In this example, VLAN 40 is used.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step12.png',
+                alt: null,
+                note: 'Note: In this example, VLAN 30 is used.',
+                MLSummary:
+                    'Configure Forbidden VLANs field to prevent the interface from joining the specified VLAN, even from GVRP registration, and enable the'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 13,
+                text: 'Choose a VLAN ID from the General PVID drop-down list. When the port is in General mode, it will be a member of these VLANs. The default value is 1. ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step13.png',
+                alt: null,
+                note: 'Note: In this example, VLAN 40 is used.',
+                MLSummary:
+                    'Select a VLAN ID from the General PVID drop-down list to make the port a member of the chosen VLAN when in General'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 14,
+                text: '(Optional) Choose a VLAN ID from the Customer VLAN ID drop-down list. When the port is in Customer mode, it will be a member of this VLAN.  Note: In this example, VLAN 20 is chosen.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step14.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Choose a VLAN ID from the Customer VLAN ID drop-down list to make the port a member of that VLAN when in Customer mode'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 15,
+                text: '(Optional) Enter the VLAN ID in the Customer Multicast VLANs field. When the port is in Customer mode, it will be a member of this Multicast TV VLAN.  Note: In this example, no VLAN ID is entered.',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step15.png',
+                alt: null,
+                note: 'Note: In this example, VLAN 20 is chosen.',
+                MLSummary:
+                    'Enter the VLAN ID in the Customer Multicast VLANs field to make the port a member of this Multicast TV VLAN when'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 16,
+                text: 'Click Apply then click Close. ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step16.png',
+                alt: null,
+                note: 'Note: In this example, no VLAN ID is entered.',
+                MLSummary: 'Click Apply and then click Close to save and exit the current settings.'
+            },
+            {
+                section: 'Configure VLAN Membership of an Interface',
+                step_number: 17,
+                text: '(Optional) Click Save to save settings to the startup configuration file.  You have now successfully assigned a port to one or more VLANs in the switch. Looking for more information on VLANs for your Cisco Business Switches? Check out any of the following links for more information.   Create VLANs Private VLAN Membership Access and Trunk Ports Protocol-Based Groups to VLAN Port to VLAN Settings Subnet-Based VLAN            Configure Multicast TV Group to VLAN Protocol-Based VLAN Groups Access Port Multicast TV VLAN Membership Customer Port Multicast TV VLAN Membership ',
+                src: 'https://www.cisco.com/c/dam/en/us/support/docs/smb/switches/Cisco-Business-Switching/images/kmgmt-2517-configure-port-vlan-membership-cbs-step17.png',
+                alt: null,
+                note: null,
+                MLSummary:
+                    'Save the assigned port to one or more VLANs in the switch by clicking "Save" and check out the provided links for'
+            }
+        ]
+    };
+</script>
+
+<section>
+    <Article {article} />
+    <GetSupportDetails {article} />
+</section>
+
+<style>
+    section {
+        margin-top: 9em;
+    }
+    ::marker {
+        color: var(--step-blue-shade);
+    }
+
+    ::marker {
+        color: blue;
+        font-size: 5.5em;
+    }
+    section {
+        margin-top: 9em;
+    }
+</style>

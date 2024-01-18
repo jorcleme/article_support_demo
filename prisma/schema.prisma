@@ -1,0 +1,238 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+  binaryTargets   = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("PRIVATE_DATABASE_URL")
+  extensions = [vector]
+}
+
+model Video {
+  id                     String                 @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  article_id             String?                @db.Uuid
+  title                  String                 @unique
+  condensed_title        String?
+  title_ml               String?
+  description            String
+  category               String
+  embed_url              String                 @unique
+  link_youtube           String
+  link_cisco             String?
+  published_date         DateTime               @db.Timestamp(6)
+  duration               String                 @db.VarChar(50)
+  tags_ml                String[]
+  views                  Int                    @default(0)
+  likes                  Int                    @default(0)
+  description_embeddings Unsupported("vector")?
+  youtube_id             String?
+  transcript             String?
+  transcript_embeddings  Unsupported("vector")?
+  type                   String?                @default("Videos") @db.VarChar(10)
+  article                Article?               @relation(fields: [article_id], references: [id], onUpdate: SetNull)
+  ProductFamily          ProductFamily[]        @relation("ProductFamilyToVideo")
+
+  @@index([article_id])
+}
+
+model Article {
+  id                 String                 @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title              String
+  condensed_title    String?
+  title_ml           String?
+  firmware_version   String?
+  objective          String
+  intro              String?
+  views              Int                    @default(0)
+  likes              Int                    @default(0)
+  published          Boolean                @default(true)
+  published_date     DateTime               @default(now()) @db.Date
+  vector             Unsupported("vector")?
+  category           String                 @default("Configuration") @db.VarChar(30)
+  search_terms       String?
+  type               String                 @default("Articles") @db.VarChar(30)
+  document_id        String?                @unique @db.VarChar(50)
+  original_url       String?
+  related_video_url  String?
+  summary_vector     Unsupported("vector")?
+  applicable_devices Json[]
+  Revision           Revision[]
+  steps              Step[]
+  videos             Video[]
+  ProductFamily      ProductFamily[]        @relation("ArticleToProductFamily")
+}
+
+model Step {
+  id                String    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  section           String?
+  text              String?
+  src               String?
+  alt               String?
+  note              String?
+  ml_summary        String?
+  mobile_summary    String?
+  article_id        String?   @db.Uuid
+  step_number       Int?      @db.SmallInt
+  support_questions Json[]
+  inserted_at       DateTime? @default(now()) @db.Timestamp(6)
+  article           Article?  @relation(fields: [article_id], references: [id], onDelete: Cascade)
+}
+
+model Device {
+  id          String         @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  pid         String         @unique @db.VarChar(50)
+  concept_id  String?        @db.Uuid
+  device_type DeviceType
+  concept     ProductFamily? @relation(fields: [concept_id], references: [id], onDelete: Cascade)
+  Router      Router?
+  Switch      Switch?
+  Wireless    Wireless?
+
+  @@index([concept_id, pid])
+}
+
+model Switch {
+  id                          String  @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  device_id                   String  @unique @db.VarChar(50)
+  num_ports                   Int?
+  firmware_version            String?
+  switching_capacity          Float?
+  forwarding_rate             Float?
+  power_dedicated_to_poe      String? @db.VarChar(10)
+  system_power_consumption    String?
+  power_consumption_with_poe  String?
+  heat_dissipation            String?
+  total_system_ports          Int?    @db.SmallInt
+  downlink_ports              Int?    @db.SmallInt
+  uplink_ports                Int?    @db.SmallInt
+  uplink_port_speed           String?
+  downlink_port_speed         String?
+  packet_buffer               String?
+  unit_dimensions             String?
+  unit_weight                 String?
+  num_of_fans                 Int?    @default(0)
+  acoustic_noise              String?
+  num_of_ports_supporting_poe Int?    @db.SmallInt
+  device                      Device  @relation(fields: [device_id], references: [pid], onDelete: Cascade)
+}
+
+model Router {
+  id                       String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  device_id                String   @unique @db.Uuid
+  num_interfaces           Int?
+  rack_mountable           Boolean?
+  qos                      String?  @db.VarChar(500)
+  wpa                      Boolean? @default(true)
+  wpa2                     Boolean?
+  wan_ports                Int?
+  lan_ports                Int?
+  usb_ports                Int?
+  firewall                 String?
+  layer_2_tunneling        Boolean?
+  layer_2_tunneling_ipsec  Boolean?
+  num_of_vlans             Int?
+  port_security            Boolean?
+  link_aggregation         Boolean?
+  nat_max_session          Int?
+  cpu                      String?
+  ram                      String?
+  flash                    String?
+  antennas                 String?
+  access_control           Boolean?
+  cisco_ssl_vpn_anyconnect String?
+  dmz_host                 Boolean?
+  hardware_dmz             String?
+  mtbf                     String?
+  package_contents         String[]
+  unit_dimensions          String?
+  unit_weight              String?
+  device                   Device   @relation(fields: [device_id], references: [id], onDelete: Cascade)
+}
+
+model Wireless {
+  id                                String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  device_id                         String   @unique @db.Uuid
+  max_clients                       String?
+  max_num_access_points             String?
+  max_num_mesh_extenders            String?
+  available_transmit_power_settings String?
+  integrated_antennas               String?
+  i_eee_spec                        String?
+  unit_dimensions                   String?
+  unit_weight                       String?
+  electronic_waste_laws_info_url    String
+  ethernet_ports                    String[]
+  indicators                        String?
+  power_draw                        String?
+  product_material_info_url         String?
+  interfaces                        String[]
+  ipv6                              Boolean? @default(false)
+  qos                               String?  @default("N/A")
+  wpa                               Boolean? @default(true)
+  wpa2                              Boolean? @default(false)
+  device                            Device   @relation(fields: [device_id], references: [id], onDelete: Cascade)
+}
+
+model ProductFamily {
+  id                         String                    @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  family                     String                    @unique @db.VarChar(100)
+  admin_guide_url            String?                   @db.VarChar(500)
+  product_support_page_url   String?                   @db.VarChar(500)
+  emulator_url               String?                   @db.VarChar(500)
+  firmware_url               String?                   @db.VarChar(500)
+  DataSheet                  DataSheet?
+  devices                    Device[]
+  frequently_asked_questions FrequentlyAskedQuestions?
+  product_family_image       ProductFamilyImage?
+  Article                    Article[]                 @relation("ArticleToProductFamily")
+  Video                      Video[]                   @relation("ProductFamilyToVideo")
+}
+
+model FrequentlyAskedQuestions {
+  id         String         @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  concept_id String?        @unique @db.Uuid
+  concept    ProductFamily? @relation(fields: [concept_id], references: [id], onDelete: Cascade)
+}
+
+model ProductFamilyImage {
+  id         String         @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  concept_id String?        @unique @db.Uuid
+  hero_img   String
+  other_imgs String[]
+  concept    ProductFamily? @relation(fields: [concept_id], references: [id], onDelete: Cascade)
+}
+
+model DataSheet {
+  id            String         @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  device_type   DeviceType
+  datasheet_url String         @db.VarChar(500)
+  various_attrs Json?
+  concept_id    String?        @unique @db.Uuid
+  ProductFamily ProductFamily? @relation(fields: [concept_id], references: [id], onDelete: Cascade)
+}
+
+model Revision {
+  id              String   @id @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revision_number Float    @default(1.0)
+  publish_date    DateTime @default(dbgenerated("CURRENT_DATE")) @db.Date
+  comments        String   @default("Initial Release")
+  article_id      String   @db.Uuid
+  Article         Article  @relation(fields: [article_id], references: [id], onDelete: Cascade)
+
+  @@index([article_id])
+}
+
+enum CommentTypeML {
+  step_note
+  best_practice
+  product_feedback
+  negative_feedback
+}
+
+enum DeviceType {
+  Switch
+  Router
+  Wireless
+}

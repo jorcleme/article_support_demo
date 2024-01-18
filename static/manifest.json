@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json.schemastore.org/web-manifest.json",
+	"name": "Cisco Hardware Installation Guide",
+	"short_name": "Cisco HIG",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		}
+	],
+	"start_url": "/",
+	"version": "1.0.0",
+	"manifest_version": 3,
+	"display": "standalone",
+	"default_locale": "en",
+	"background_color": "#efefef",
+	"scope": "/",
+	"theme_color": "#00bceb",
+	"description": "Configure your network properly with assistance from the Cisco Hardware Installation Guide."
+}

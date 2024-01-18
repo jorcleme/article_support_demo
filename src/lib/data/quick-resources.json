@@ -1,0 +1,46 @@
+[
+	{
+		"series": "Cisco Catalyst 1200 Series Switches",
+		"page": "https://www.cisco.com/c/en/us/support/switches/catalyst-1200-series-switches/series.html",
+		"description": "Cisco Catalyst 1200 Series Switches - Technical support documentation, downloads, tools and resources",
+		"resources": [
+			{
+				"id": "DataSheet",
+				"href": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1200-series-switches/nb-06-cat1200-ser-data-sheet-cte-en.html",
+				"description": "Cisco Catalyst 1200 Series Switch Data Sheet"
+			},
+			{
+				"id": "AdminGuide",
+				"href": "https://www.cisco.com/c/en/us/td/docs/switches/lan/csbms/catalyst-1200-1300/AdminGuide/catalyst-1300-admin-guide.html",
+				"description": "Cisco Catalyst 1200 Series Switches Administration Guide"
+			},
+			{
+				"id": "Firmware",
+				"href": "https://software.cisco.com/download/home/286331065",
+				"description": "Cisco Catalyst 1200 Software Downloads"
+			}
+		]
+	},
+	{
+		"series": "Cisco Catalyst 1300 Series Switches",
+		"page": "https://www.cisco.com/c/en/us/support/switches/catalyst-1300-series-switches/series.html",
+		"description": "Cisco Catalyst 1300 Series Switches - Technical support documentation, downloads, tools and resources",
+		"resources": [
+			{
+				"id": "DataSheet",
+				"href": "https://www.cisco.com/c/en/us/products/collateral/switches/catalyst-1300-series-switches/nb-06-cat1300-ser-data-sheet-cte-en.html",
+				"description": "Cisco Catalyst 1300 Series Switches Data Sheet"
+			},
+			{
+				"id": "AdminGuide",
+				"href": "https://www.cisco.com/c/en/us/td/docs/switches/lan/csbms/catalyst-1200-1300/AdminGuide/catalyst-1300-admin-guide.html",
+				"description": "Cisco Catalyst 1300 Series Switches Administration Guide"
+			},
+			{
+				"id": "Firmware",
+				"href": "https://software.cisco.com/download/home/286330857",
+				"description": "Cisco Catalyst 1300 Software Downloads"
+			}
+		]
+	}
+]
