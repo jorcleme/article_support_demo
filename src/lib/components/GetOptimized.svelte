@@ -47,13 +47,19 @@
 		console.log(articlesOnly);
 	});
 
-	function handleDropdownClick() {
+	function handleDropdownClick(event) {
 		if (!open) {
 			return;
 		} else {
 			$BreadcrumbStore.step3complete = true;
 			$BreadcrumbStore.currentStep = 3;
 			CurrentStep.setStepThree();
+			if (event.target.classList.contains('searchBar')) {
+				document.querySelector('.searchButton').style.transform = 'translateX(100px)';
+			}
+			if (!event.target.classList.contains('searchBar')) {
+				document.querySelector('.searchButton').style.transform = 'translateX(0px)';
+			}
 		}
 
 		CurrentStep.persistStep($CurrentStep);
@@ -135,8 +141,9 @@
 	}
 </script>
 
-<div class="container" id="get-optimized" on:click={resetMedia} on:keydown>
+<div class="container" id="get-optimized" role="contentinfo">
 	<details class="dropdown" bind:open>
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<summary class="dropdown-summary" on:click={handleDropdownClick} on:keydown={handleKeyDown}>
 			<div class="row-flex">
 				<Breadcrumb name="getoptimized" --icon-width="3.5rem" --icon-height="auto" />
@@ -211,6 +218,7 @@
 						/>
 					</div>
 
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
 					<div class="filterRow" on:click={(event) => resetMedia(event)} on:keydown>
 						<select bind:value={$category} on:change={resetSearchTerm} class="filterSelect">
 							<option value="All">{$_('all_categories')}</option>
@@ -587,32 +595,6 @@
 		align-items: center;
 	}
 
-	@media (max-width: 576px) {
-		#content-card-compact {
-			grid-template-columns: 0.5fr 2fr;
-			width: calc(100vw - 20px);
-			max-height: 180px;
-			/* min-height: 150px; */
-			border-radius: 0;
-		}
-
-		#content-card-header-logo-compact {
-			width: 100px;
-			height: 100%;
-
-			margin: 0;
-			/* margin:0 1em 0 0; */
-		}
-		div#content-card-header-text-compact {
-			width: 100%;
-			min-height: 100px;
-			display: flex;
-			justify-content: center;
-			flex-direction: column;
-			/* margin:0 0 0 1em; */
-			padding: 0.5em;
-		}
-	}
 	.mediaFormat button {
 		background: rgba(255, 255, 255, 0);
 	}
@@ -739,33 +721,6 @@
 		grid-auto-flow: row;
 	}
 
-	/* Your basic CSS for masonry-like layout */
-	.masonry {
-		column-count: 3;
-		column-gap: 16px;
-	}
-
-	.masonry-item {
-		display: inline-block;
-		width: 100%;
-		margin-bottom: 16px;
-		break-inside: avoid;
-	}
-
-	/* Apply the masonry-like layout for specific screen sizes using media query */
-	@media screen and (min-width: 768px) {
-		.masonry {
-			column-count: 4;
-			column-gap: 24px;
-		}
-	}
-
-	@media screen and (min-width: 1024px) {
-		.masonry {
-			column-count: 6;
-			column-gap: 32px;
-		}
-	}
 	/* grid-template-rows: masonry; */
 
 	@media only screen and (max-width: 768px) {

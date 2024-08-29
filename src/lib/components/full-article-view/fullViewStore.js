@@ -6,6 +6,7 @@ export const activeArticleStep = writable(0);
 export const activeSupportSection = writable('Objective');
 export const activeSupportStep = writable(1);
 export const isSupportStepDetailsOpen = writable(false);
+export const activeArticleId = writable(null);
 
 export function createChatStore(initial) {
 	const { subscribe, set, update } = writable(initial);

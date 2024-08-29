@@ -1,4 +1,3 @@
-import { prismadb } from '$lib/utils/prisma.js';
 import { json } from '@sveltejs/kit';
 
 const a = {
@@ -381,18 +380,9 @@ const a = {
  * @type {import('@sveltejs/kit').RequestHandler}
  */
 export async function GET() {
-	const title = 'Upgrade Firmware on a CBS 250 or 350 Series Switch';
-	let article = await prismadb.article.findFirst({
-		where: {
-			title: title
-		},
-		include: {
-			steps: true,
-			ProductFamily: true
-		}
-	});
 	if (a) {
-		a.steps.sort((a, b) => a.inserted_at - b.inserted_at);
+		const article = JSON.parse(JSON.stringify(a));
+		article.steps.sort((a, b) => a.inserted_at - b.inserted_at);
 		article.opened = false;
 
 		return json({ article: a }, { status: 200, headers: { 'Content-Type': 'application/json' } });

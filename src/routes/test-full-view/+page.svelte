@@ -1,7 +1,8 @@
 <script>
 	import GetSupportWidgetContainer from '$lib/components/full-article-view/GetSupportWidgetContainer.svelte';
 	import FullArticle from '$lib/components/full-article-view/FullArticle.svelte';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onMount } from 'svelte';
+	import { activeArticleId } from '$lib/components/full-article-view/fullViewStore';
 
 	/** @type {import('./$types').PageServerData}*/
 	export let data;
@@ -11,9 +12,10 @@
 	afterUpdate(() => {
 		console.log('form', form);
 	});
-	// onMount(() => {
-	// 	console.log(data);
-	// });
+	onMount(() => {
+		activeArticleId.set(data.article.id ?? null);
+		console.log($activeArticleId);
+	});
 </script>
 
 <div class="container">

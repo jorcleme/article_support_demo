@@ -2,7 +2,7 @@
 	import { afterUpdate, createEventDispatcher, onMount } from 'svelte';
 	import { flip } from 'svelte/animate';
 	import { slide, fly, fade, crossfade } from 'svelte/transition';
-	import { cubicIn, quintInOut, quintOut } from 'svelte/easing';
+	import { cubicIn, cubicInOut, quintInOut, quintOut } from 'svelte/easing';
 	import {
 		mostRecentStep,
 		mountedArticleSteps,
@@ -78,29 +78,18 @@
 			if (promptQuestionButtons.length > 3) {
 				return;
 			}
-			const cachedQuestions = localStorage.getItem(`${stepId}`);
-			if (cachedQuestions) {
-				console.log('cached questions', cachedQuestions);
-				promptQuestionButtons = [...promptQuestionButtons, ...JSON.parse(cachedQuestions)];
-				questionsFetched = true;
-				return;
-			}
-
 			let generatedQuestionsData = await generateAIQuestion($mostRecentStep, $mountedArticleSteps);
 			if (generatedQuestionsData && $mostRecentStep > -1) {
 				questionsFetched = true;
-				questions = generatedQuestionsData.questions;
-				console.log('questions', questions);
-				let converted = questions.map((q, index) => {
+				questions = generatedQuestionsData.map((q, index) => {
 					return {
 						id: `dynamicAnswer${index + 1}`,
 						text: q,
 						clicked: false
 					};
 				});
-				localStorage.setItem(`${stepId}`, JSON.stringify(converted));
-				// promptQuestionButtons = promptQuestionButtons.concat(converted);
-				promptQuestionButtons = [...promptQuestionButtons, ...converted];
+				console.log('questions', questions);
+				promptQuestionButtons = [...promptQuestionButtons, ...questions];
 			}
 		}
 	}
@@ -113,17 +102,6 @@
 			let questionAsked = btn.text.trim();
 			currentQuestion = questionAsked;
 			console.log('question asked', questionAsked);
-			const cacheAnswers = localStorage.getItem(`${stepId}-${questionAsked}-answer`);
-			let a;
-			if (cacheAnswers) {
-				a = JSON.parse(cacheAnswers);
-				messages = [
-					...messages,
-					{ role: 'user', content: questionAsked },
-					{ role: 'assistant', content: a }
-				];
-				return;
-			}
 			messages = [...messages, { role: 'user', content: questionAsked }];
 			// messages.addMessage({ role: 'user', content: questionAsked });
 			const stepArrayContext =
@@ -150,7 +128,6 @@
 			// messages.addMessage({ role: 'system', content: context });
 			let data = await answerGenAIQuestion(messages);
 			let answer = data.answer;
-			localStorage.setItem(`${stepId}-${questionAsked}-answer`, JSON.stringify(answer));
 			messages = [...messages, { role: 'assistant', content: answer }];
 
 			// messages.addMessage({ role: 'assistant', content: answer });
@@ -203,6 +180,23 @@
 		thumbsUpOpen = !thumbsUpOpen;
 		dispatch('thumb-up-click', { status: thumbsUpOpen });
 	}
+
+	const [send, recieve] = crossfade({
+		duration: (d) => Math.sqrt(d * 200),
+		fallback(node, params) {
+			const style = getComputedStyle(node);
+			const transform = style.transform === 'none' ? '' : style.transform;
+
+			return {
+				duration: 600,
+				easing: cubicInOut,
+				css: (t) => `
+					transform: ${transform} scale(${t});
+					opacity: ${t}
+				`
+			};
+		}
+	});
 </script>
 
 <details
@@ -463,8 +457,11 @@
 		>
 			<summary class="s-5e5kg2sOboz_"></summary>
 			<div class="buttonWell">
-				{#each promptQuestionButtons as btn, index}
+				{#each promptQuestionButtons as btn, index (index)}
 					<button
+						in:recieve={{ key: index }}
+						out:send={{ key: index }}
+						animate:flip={{ duration: 200 }}
 						on:click={() => handleGenAIQuestion(index)}
 						class="button"
 						class:clicked={btn.clicked}
@@ -641,6 +638,9 @@
 		transition: all 0.5s ease-in-out;
 		font-family: 'CiscoSansThin';
 		font-weight: 600;
+		transform-origin: center center;
+		will-change: transform;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	}
 
 	.button:hover {
@@ -648,6 +648,7 @@
 		color: #2b5592;
 		border-radius: 12px;
 		border: #2b5592 1px solid;
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 	}
 
 	.button.clicked {
